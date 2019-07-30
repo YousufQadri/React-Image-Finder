@@ -14,17 +14,22 @@ class Search extends Component {
   };
 
   onTextChange = e => {
+    const val = e.target.value;
     this.setState({
       [e.target.name]: e.target.value
     });
-    fetch(
-      `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
-        this.state.searchText
-      }&image_type=photo&per_page=${this.state.amount}`
-    )
-      .then(res => res.json())
-      .then(data => this.setState({ images: data.hits }))
-      .catch(err => console.log(err));
+    if (val === "") {
+      this.setState({ images: [] });
+    } else {
+      fetch(
+        `${this.state.apiUrl}/?key=${this.state.apiKey}&q=${
+          this.state.searchText
+        }&image_type=photo&per_page=${this.state.amount}`
+      )
+        .then(res => res.json())
+        .then(data => this.setState({ images: data.hits }))
+        .catch(err => console.log(err));
+    }
   };
 
   onAmountChange = (e, index, value) => {
@@ -32,8 +37,6 @@ class Search extends Component {
   };
 
   render() {
-    console.log(this.state.images);
-
     return (
       <div>
         <TextField
@@ -46,8 +49,8 @@ class Search extends Component {
         <br />
         <SelectField
           name="amount"
-          floatingLabelText="Number of images"
           value={this.state.amount}
+          floatingLabelText="Number of images"
           onChange={this.onAmountChange}
         >
           <MenuItem value={5}>5</MenuItem>
