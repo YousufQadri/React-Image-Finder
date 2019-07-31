@@ -3,21 +3,21 @@ import PropTypes from "prop-types";
 import { GridList, GridTile } from "material-ui/GridList";
 import IconButton from "material-ui/IconButton";
 import ZoomIn from "material-ui/svg-icons/action/zoom-in";
-import Diaglog from "material-ui/Dialog";
+import Dialog from "material-ui/Dialog";
 import FlatButton from "material-ui/FlatButton";
 
 class ImageOutputs extends Component {
   state = {
-    open: false,
+    pen: false,
     currentImage: ""
   };
 
   handleOpen = img => {
-    this.setState({ open: true, currentImage: img });
+    this.setState({ isOpen: true, currentImage: img });
   };
 
-  handleClose = img => {
-    this.setState({ open: false });
+  handleClose = () => {
+    this.setState({ isOpen: false });
   };
 
   render() {
@@ -37,7 +37,7 @@ class ImageOutputs extends Component {
                 </span>
               }
               actionIcon={
-                <IconButton onClick={img => this.handleOpen(img.largeImageURL)}>
+                <IconButton onClick={() => this.handleOpen(img.largeImageURL)}>
                   <ZoomIn color="white" />
                 </IconButton>
               }
@@ -52,20 +52,20 @@ class ImageOutputs extends Component {
     }
 
     const actions = [
-      <FlatButton label="close" primary={true} onClick={this.handleClose} />
+      <FlatButton label="Close" primary={true} onClick={this.handleClose} />
     ];
 
     return (
       <div>
         {imageListContent}
-        <Diaglog
-          action={actions}
+        <Dialog
+          actions={actions}
           modal={false}
-          open={this.state.open}
+          open={this.state.isOpen}
           onRequestClose={this.handleClose}
         >
-          <img src={this.state.currentImage} alt="" style={{ widht: "100%" }} />
-        </Diaglog>
+          <img src={this.state.currentImage} alt="" style={{ width: "100%" }} />
+        </Dialog>
       </div>
     );
   }
